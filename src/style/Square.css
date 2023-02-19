@@ -1,15 +1,15 @@
 .square {
     width: 70px;
     height: 70px;
-    background-color: #bbada0;
+    /* background-color: #bbada0; */
     border: 1px solid #cdc1b4;
     float: left;
     font-size: 30px;
-    color: #776e65;
+    /* color: #776e65; */
     text-align: center;
     line-height: 75px;
   }
-  
+
   .tile-2 {
     background-color: #eee4da;
   }
