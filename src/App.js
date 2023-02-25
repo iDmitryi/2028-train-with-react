@@ -1,4 +1,4 @@
-import Grid from './components/Grid';
+import Board from './components/Board';
 import './style/App.css';
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       <main className="main">
-        <Grid rows={4} columns={4} />
+        <Board rows={4} columns={4} />
       </main>
       <footer className="App-footer"></footer>
     </div>
