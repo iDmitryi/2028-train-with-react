@@ -8,7 +8,7 @@ export const getRandomTile = () => {
   return random;
 };
 
-export const addTile = (currentBoardState) => {
+export const addTile = (currentBoardState, CURRENT_TILE_NUMBER) => {
   const randomColumnIndex =
     Math.floor(Math.random() * currentBoardState[0].length - 1) + 1;
 
@@ -22,7 +22,7 @@ export const addTile = (currentBoardState) => {
       if (rowIndex === 0 && hasFallingNumber) {
         // if random selected column index
         if (randomColumnIndex === columnIndex) {
-          return getRandomTile();
+          return CURRENT_TILE_NUMBER;
         }
       }
 
@@ -100,7 +100,7 @@ export const moveLeftOnTheFly = (currentBoardState, rowNumber) => {
   });
 
   // console.table(board);
-  console.log({ rowNumber });
+  // console.log({ rowNumber });
 
   return board;
 };

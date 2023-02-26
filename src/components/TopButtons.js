@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   moveFallingNumberDown,
   moveRightOnTheFly,
   moveLeftOnTheFly,
   addTile,
+  getRandomTile,
 } from '../helpers/helper';
 
 const TopButtons = ({
@@ -13,43 +14,80 @@ const TopButtons = ({
   rowNumber,
   setRowNumber,
 }) => {
+  const [activeTileRowIndex, setActiveTileRowIndex] = useState(0);
+
+  const CURRENT_TILE_NUMBER = getRandomTile();
+
+  /**
+   * ADD new tile in the first row
+   */
   const addTileOnFirstRow = () => {
-    const updatedBoard = addTile(currentState);
+    const updatedBoard = addTile(currentState, CURRENT_TILE_NUMBER);
 
     setCurrentState(updatedBoard);
     setRowNumber(0);
+    setActiveTileRowIndex(updatedBoard[0].indexOf(CURRENT_TILE_NUMBER));
   };
 
+  /**
+   * DOWN
+   */
   const moveDown = () => {
     const updatedBoard = moveFallingNumberDown(currentState);
 
     setCurrentState(updatedBoard);
 
-    // TODO: change this condition
-    //           !currentState[rowNumber + 1].filter(Boolean).length
-    // to ADD tiles between themselves
+    const currentRowItems = updatedBoard[rowNumber + 1];
 
-    const nextItemInColumn = currentState[rowNumber + 1].filter(Boolean);
+    let nextRowItems = updatedBoard[rowNumber + 2];
 
-    let currentItemColumn = currentState[rowNumber + 2].filter(Boolean);
+    console.log(
+      { activeTileRowIndex, rowNumber: rowNumber + 1 },
+      currentRowItems,
+      nextRowItems,
+    );
+    console.table(updatedBoard);
 
-    console.log(currentItemColumn, nextItemInColumn);
-
-    rowNumber < updatedBoard.length - 1 &&
-      !nextItemInColumn.length &&
-      setRowNumber(++rowNumber);
+    if (
+      rowNumber < updatedBoard.length &&
+      nextRowItems &&
+      nextRowItems[activeTileRowIndex] === 0
+    ) {
+      console.log('INCREMENTED');
+      setRowNumber(rowNumber + 1);
+    }
   };
 
+  /**
+   * RIGHT
+   */
   const moveRight = () => {
     const updatedBoard = moveRightOnTheFly(currentState, rowNumber);
 
     setCurrentState(updatedBoard);
+
+    console.log(updatedBoard[rowNumber][activeTileRowIndex + 1]);
+
+    setActiveTileRowIndex((prevState) =>
+      prevState < updatedBoard[0].length - 1 &&
+      updatedBoard[rowNumber][prevState + 1] === 0
+        ? prevState + 1
+        : prevState,
+    );
   };
 
+  /**
+   * LEFT
+   */
   const moveLeft = () => {
     const updatedBoard = moveLeftOnTheFly(currentState, rowNumber);
 
     setCurrentState(updatedBoard);
+    setActiveTileRowIndex((prevState) =>
+      prevState === 0 && updatedBoard[rowNumber][activeTileRowIndex - 1] !== 0
+        ? prevState
+        : prevState - 1,
+    );
   };
 
   return (
