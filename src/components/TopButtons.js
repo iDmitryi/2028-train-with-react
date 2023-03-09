@@ -37,23 +37,7 @@ const TopButtons = ({
 
     setCurrentState(updatedBoard);
 
-    const currentRowItems = updatedBoard[rowNumber + 1];
-
-    let nextRowItems = updatedBoard[rowNumber + 2];
-
-    console.log(
-      { activeTileRowIndex, rowNumber: rowNumber + 1 },
-      currentRowItems,
-      nextRowItems,
-    );
-    console.table(updatedBoard);
-
-    if (
-      rowNumber < updatedBoard.length &&
-      nextRowItems &&
-      nextRowItems[activeTileRowIndex] === 0
-    ) {
-      console.log('INCREMENTED');
+    if (rowNumber < updatedBoard.length - 1) {
       setRowNumber(rowNumber + 1);
     }
   };
@@ -66,10 +50,8 @@ const TopButtons = ({
 
     setCurrentState(updatedBoard);
 
-    console.log(updatedBoard[rowNumber][activeTileRowIndex + 1]);
-
     setActiveTileRowIndex((prevState) =>
-      prevState < updatedBoard[0].length - 1 &&
+      prevState < updatedBoard[rowNumber].length &&
       updatedBoard[rowNumber][prevState + 1] === 0
         ? prevState + 1
         : prevState,

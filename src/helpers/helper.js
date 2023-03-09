@@ -29,15 +29,9 @@ export const addTile = (currentBoardState, CURRENT_TILE_NUMBER) => {
       return rowValue;
     });
 
-    // set first row
-    // if (array[0] === row) {
-    //   setFirstRow(currentRow);
-    // }
-
     return currentRow;
   });
 
-  // setCurrentState(board);
   return board;
 };
 
@@ -54,53 +48,41 @@ export const moveFallingNumberDown = (currentBoardState, rowNumber) => {
     });
   });
 
-  // console.table(board);
-
   return board;
 };
 
 export const moveRightOnTheFly = (currentBoardState, rowNumber) => {
   const board = currentBoardState.map((row, rowIndex, array) => {
     return row.map((cell, colIndex) => {
-      // console.log({ lenght: row.length, colIndex, rowIndex });
       if (rowNumber === rowIndex) {
-        if (cell === 0 && colIndex > 0 && colIndex < row.length) {
-          return array[rowIndex][colIndex - 1];
+        if (cell === 0 && colIndex >= 0 && colIndex < row.length) {
+          return row[colIndex - 1] || 0;
         }
 
-        return colIndex === row.length - 1 || array[rowIndex][colIndex + 1]
-          ? cell
-          : 0;
+        return colIndex < row.length - 1 ? 0 : cell;
       }
 
       return cell;
     });
   });
-
-  // console.table(board);
 
   return board;
 };
 
 export const moveLeftOnTheFly = (currentBoardState, rowNumber) => {
   const board = currentBoardState.map((row, rowIndex, array) => {
-    const currentRow = row.map((cell, colIndex) => {
+    return row.map((cell, colIndex) => {
       if (rowNumber === rowIndex) {
-        if (cell === 0 && colIndex >= 0 && colIndex < row.length - 1) {
-          return array[rowIndex][colIndex + 1];
+        if (cell === 0 && colIndex >= 0 && colIndex < row.length) {
+          return row[colIndex + 1] || 0;
         }
 
-        return colIndex === 0 || array[rowIndex][colIndex - 1] ? cell : 0;
+        return colIndex > 0 ? 0 : cell;
       }
 
       return cell;
     });
-
-    return currentRow;
   });
-
-  // console.table(board);
-  // console.log({ rowNumber });
 
   return board;
 };
@@ -127,90 +109,3 @@ export const compareArrays = (arr1, arr2) => {
   // Arrays are equal
   return true;
 };
-
-export const moveTilesDown = (currentState) => {
-  console.log('moveTilesDown');
-
-  //   let newGrid = [...currentState];
-  //   for (let i = rows - 1; i > 0; i--) {
-  //     for (let j = 0; j < columns; j++) {
-  //       if (newGrid[i][j] === null) {
-  //         newGrid[i][j] = newGrid[i - 1][j];
-  //         newGrid[i - 1][j] = null;
-  //       }
-  //     }
-  //   }
-  //     setCurrentState(newGrid);
-};
-
-// const addTile = () => {
-//   let newGrid = [...currentState];
-//   for (let i = 0; i < columns; i++) {
-//     if (newGrid[0][i] === null) {
-//       newGrid[0][i] = 2;
-//       break;
-//     }
-//   }
-
-//   setCurrentState(newGrid);
-//   moveTilesDown(newGrid);
-// };
-
-// Animation for falling tile
-
-//   useEffect(() => {
-// let timeoutId;
-// for (let i = 0; i < rows - 1; i++) {
-// timeoutId = setTimeout(moveTilesDown, 1000);
-// }
-// return () => {
-//   clearTimeout(timeoutId);
-// };
-//   }, [currentState]);
-
-export const tileDownfall = () => {
-  let currentState = [[], []];
-  let firstRow;
-
-  // TODO: make this function to move tile down one time if there are no
-  // another tile
-  const arrayAfterDownfall = currentState.map((row, rowIndex) => {
-    const currentRow = row.map((rowValue, columnIndex) => {
-      console.log(row === firstRow);
-
-      return 0;
-    });
-
-    return currentRow;
-  });
-
-  console.table(arrayAfterDownfall);
-};
-
-// Create a copy of the board array
-// const newBoard = [...currentBoardState];
-
-// Check if there's a falling number in the first row
-// const hasFallingNumber = newBoard[0].some((cell) => cell === fallingTile);
-
-// Move the falling number down one row
-// newBoard.reverse().map((row, rowIndex) =>
-//   row.map((col, colIndex) => {
-//     let newCol = col;
-//     if (rowIndex === 0 && col !== 0 && !hasFallingNumber) {
-//       newBoard[newBoard.length - 1][colIndex] = col;
-//       newBoard[rowIndex][colIndex] = 0;
-//       newCol = 0;
-//     } else if (rowIndex === 0 && col === 0) {
-//       newBoard[newBoard.length - 1][colIndex] = fallingTile;
-//       fallingTile = getRandomTile();
-//     } else if (col === 0 && newBoard[rowIndex - 1][colIndex] !== 0) {
-//       newBoard[rowIndex][colIndex] = newBoard[rowIndex - 1][colIndex];
-//       newBoard[rowIndex - 1][colIndex] = 0;
-//     }
-//     return newCol;
-//   }),
-// );
-
-// Reverse the board back to its original order
-// newBoard.reverse();
